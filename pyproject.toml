@@ -1,20 +1,14 @@
 [project]
 name = "aws-container-service"
-version = "0.1.0"
-description = "Add your description here"
+version = "1.0.0"
+description = "A containerized FastAPI application with AWS ECS management capabilities."
 readme = "README.md"
-authors = [
-    { name = "anandhuj", email = "anandhuj08@gmail.com" }
-]
 requires-python = ">=3.11"
 dependencies = [
-    "fastapi>=0.162.2",
-    "uvicorn>=0.54.0",
+    "fastapi>=0.115.0",
+    "uvicorn[standard]>=0.30.0",
+    "boto3>=1.35.0",
 ]
 
-[project.scripts]
-aws-container-service = "aws_container_service:main"
-
-[build-system]
-requires = ["uv_build>=0.13.7,<0.14.0"]
-build-backend = "uv_build"
+[tool.uv]
+package = false
