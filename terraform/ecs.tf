@@ -109,7 +109,7 @@ resource "aws_ecs_task_definition" "app" {
   container_definitions = jsonencode([
     {
       name      = "health-api"
-      image     = "${data.aws_caller_identity.current.account_id}.dkr.ecr.ap-southeast-2.amazonaws.com/aws-container-service:v2"
+      image     = "${data.aws_caller_identity.current.account_id}.dkr.ecr.ap-southeast-2.amazonaws.com/aws-container-service:v3"
       essential = true
 
       portMappings = [

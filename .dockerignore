@@ -1,0 +1,28 @@
+# Python
+.venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Node
+frontend/node_modules/
+frontend/dist/
+
+# Git
+.git/
+.gitignore
+
+# Environment and secrets
+.env
+.env.*
+!.env.example
+
+# Terraform
+terraform/
+
+# Other
+README.md
+*.log
+.DS_Store

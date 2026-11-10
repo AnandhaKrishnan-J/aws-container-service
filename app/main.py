@@ -2,8 +2,10 @@ import os
 import json
 import urllib.request
 from datetime import datetime, timezone
+from pathlib import Path
 
 from fastapi import FastAPI
+from fastapi.staticfiles import StaticFiles
 
 from app.api.routes import chat
 
@@ -34,23 +36,6 @@ def get_ecs_metadata():
             return json.loads(response.read())
     except Exception:
         return None
-
-
-@app.get("/")
-async def root():
-    return {
-        "name": "AWS Container Service",
-        "description": "A containerized FastAPI application running on AWS ECS.",
-        "version": app.version,
-        "status": "running",
-        "endpoints": {
-            "health": "/health",
-            "info": "/info",
-            "documentation": "/docs",
-            "openapi": "/openapi.json",
-            "chat": "/chat/"
-        }
-    }
 
 
 @app.get("/health")
@@ -96,3 +81,29 @@ async def service_status():
         "task_running": metadata is not None,
         "checked_at": datetime.now(timezone.utc).isoformat()
     }
+
+# Serve the React frontend when its production build is available.
+frontend_dist = Path(__file__).resolve().parent.parent / "frontend" / "dist"
+
+if frontend_dist.exists():
+    app.mount(
+        "/",
+        StaticFiles(directory=frontend_dist, html=True),
+        name="frontend",
+    )
+else:
+    @app.get("/")
+    async def root():
+        return {
+            "name": "AWS Container Service",
+            "description": "A containerized FastAPI application running on AWS ECS.",
+            "version": app.version,
+            "status": "running",
+            "endpoints": {
+                "health": "/health",
+                "info": "/info",
+                "documentation": "/docs",
+                "openapi": "/openapi.json",
+                "chat": "/chat/"
+            }
+        }
